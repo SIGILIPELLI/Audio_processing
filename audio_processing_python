@@ -1,0 +1,25 @@
+from pyaudio import PyAudio, paFloat32
+
+    pa = PyAudio()
+    limiter = Limiter(attack_coeff, release_coeff, delay, dtype)
+
+    def callback(in_data, frame_count, time_info, flag):
+        if flag:
+            print("Playback Error: %i" % flag)
+        played_frames = counter
+        counter += frame_count
+        limiter.limit(signal[played_frames:counter], threshold)
+        return signal[played_frames:counter], paContinue
+
+    stream = pa.open(format = paFloat32,
+                     channels = 1,
+                     rate = 44100,
+                     output = True,
+                     frames_per_buffer = 1024,
+                     stream_callback = callback)
+
+    while stream.is_active():
+        sleep(0.1)
+
+    stream.close()
+    pa.terminate()
